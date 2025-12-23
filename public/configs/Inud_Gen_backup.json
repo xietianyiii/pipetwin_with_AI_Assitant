@@ -1,0 +1,55 @@
+{
+  "algorithmType": "FloodForShp",
+  "customId": "flood_default",
+  "customData": "",
+  "file": {
+    "tifURL": "http://10.100.10.124:8090/inundation/DEM1.tif",
+    "shpURL": "http://10.100.10.124:8090/inundation/Grid1.shp",
+    "shxURL": "http://10.100.10.124:8090/inundation/Grid1.shx",
+    "prjURL": "http://10.100.10.124:8090/inundation/Grid1.prj",
+    "dbfURL": "http://10.100.10.124:8090/inundation/Grid1.dbf",
+    "override": true
+  },
+  "data": [
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_001.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_001.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_002.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_002.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_003.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_003.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_004.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_004.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_005.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_005.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_006.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_006.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_007.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_007.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_008.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_008.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_009.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_009.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/GridIDArray_010.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/Inu_children_gridjson/ValueArray_010.json"
+    }
+  ]
+}

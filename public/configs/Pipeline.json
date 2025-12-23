@@ -1,0 +1,9 @@
+{
+  "pipelineConfig": {
+    "functionName": "createPipeline",
+    "parameters": {
+      "app": "App",
+      "shapeFilePath": "//10.66.12.53/x.public/exchange/TMP_THJ/WIM/kunshan/pipeline_network_20251021_110401.shp"
+    }
+  }
+}

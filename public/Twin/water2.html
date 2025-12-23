@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=500, height=320, user-scalable=no" />
+    <title>积水点2监测信息</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: rgba(79, 99, 113, 0.7);
+            color: #ffffff;
+            font-size: 14px;
+            width: 450px;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 11px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(3px);
+        }
+
+        .header {
+            background: linear-gradient(to right,
+                    rgba(49, 141, 169, 0.7),
+                    rgba(79, 99, 113, 0.7));
+            color: #fff;
+            font-weight: 600;
+            padding: 15px 18px;
+            font-size: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-shadow: 0 0 6px #00bfff;
+            border: none;
+            backdrop-filter: blur(1px);
+        }
+
+        .content {
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 55px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .label {
+            color: #faf4f4;
+            min-width: 100px;
+            font-size: 24px;
+            text-shadow: #58f0f0 0 0 1px;
+            font-family: "YSBTHeiTi", Arial, sans-serif;
+        }
+
+        .value {
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: #566fff 0 0 8px;
+            font-size: 24px;
+            font-family: "YSBTHeiTi", sans-serif;
+        }
+
+        .status-dots {
+            display: flex;
+            gap: 90px;
+        }
+
+        .dot {
+            width: 21px;
+            height: 21px;
+            border-radius: 50%;
+            border: 1px solid #999;
+        }
+
+        .dot.green {
+            background: #00cc44;
+            box-shadow: 0 0 4px #00cc44;
+        }
+
+        .dot.red {
+            background: #ff3333;
+            box-shadow: 0 0 4px #ff3333;
+        }
+
+        .dot.gray {
+            background: #bbb;
+            box-shadow: 0 0 4px #bbb;
+        }
+
+        .dot.blue {
+            background: #3399ff;
+            box-shadow: 0 0 4px #3399ff;
+        }
+
+        button {
+            background: linear-gradient(to right,
+                    rgba(49, 141, 169, 0.7) 0%,
+                    rgba(79, 99, 113, 0.7) 33%,
+                    rgba(45, 198, 245, 0.7) 66%,
+                    rgba(39, 77, 104, 0.7) 100%);
+            background-size: 200% 100%;
+            background-position: 0% 0%;
+            color: #dcd9ff;
+            font-weight: 600;
+            font-family: "SimHei", Arial, sans-serif;
+            text-shadow: 0 0 6px #00bfff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 10px;
+            cursor: pointer;
+            backdrop-filter: blur(1px);
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-position: -100% 0%;
+            transform: scale(1.01);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div>徐泾</div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const index = urlParams.get("index") || 0;
+    </script>
+
+    <div class="content">
+        <div class="row">
+            <div class="label">积水深度：</div>
+            <div class="value">12mm</div>
+        </div>
+
+        <div class="row" style="visibility: hidden;">placeholder</div>
+
+        <div class="row">
+            <div class="label">状态：</div>
+            <div class="status-dots">
+                <div class="dot green"></div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

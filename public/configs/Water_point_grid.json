@@ -1,0 +1,47 @@
+{
+    "algorithmType": "FloodForShp",
+    "customId": "flood_default1",
+    "customData": "",
+    "file": {
+        "tifURL": "http://10.100.10.124:8090/inundation/water_point_grid/water_point_DEM.tif",
+        "shpURL": "http://10.100.10.124:8090/inundation/water_point_grid/water_point_Grid.shp",
+        "shxURL": "http://10.100.10.124:8090/inundation/water_point_grid/water_point_Grid.shx",
+        "prjURL": "http://10.100.10.124:8090/inundation/water_point_grid/water_point_Grid.prj",
+        "dbfURL": "http://10.100.10.124:8090/inundation/water_point_grid/water_point_Grid.dbf",
+        "override": true
+    },
+    "data": [
+        {
+            "gridIdArray": [
+                1
+            ],
+            "valueArray": [
+                1.5
+            ]
+        },
+        {
+            "gridIdArray": [
+                1
+            ],
+            "valueArray": [
+                2.1
+            ]
+        },
+        {
+            "gridIdArray": [
+                1
+            ],
+            "valueArray": [
+                2.5
+            ]
+        },
+        {
+            "gridIdArray": [
+                1
+            ],
+            "valueArray": [
+                2.2
+            ]
+        }
+    ]
+}

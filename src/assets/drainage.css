@@ -1,0 +1,901 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+
+    /* 背景图放整个页面 */
+    background: url("./pngs/background.png") no-repeat center center;
+    background-size: cover;
+}
+
+
+/* 工具条容器 */
+.toolbar {
+    position: fixed;
+    left: 20vw;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: #f2f2f2;
+    border: 0.5px solid rgb(199, 174, 174);
+    border-radius: 12px;
+    padding: 15px 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* 工具块样式 */
+.tool-item {
+    width: 38px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: white;
+    transition: all 0.3s;
+}
+
+.tool-item svg {
+    width: 28px;
+    height: 28px;
+    fill: black;
+    transition: fill 0.3s;
+}
+
+.tool-item:hover {
+    background-color: #0077b6;
+    transform: scale(1.05);
+}
+
+.tool-item:hover svg {
+    fill: white;
+}
+
+.tool-item.active {
+    background-color: #0077b6;
+    border-color: #005f8a;
+}
+
+.tool-item.active svg {
+    fill: rgb(174, 178, 230);
+}
+
+/* 显示/隐藏按钮的双图标控制 */
+.show-toggle svg:nth-child(2) {
+    display: none;
+}
+
+.show-toggle.active svg:nth-child(1) {
+    display: none;
+}
+
+.show-toggle.active svg:nth-child(2) {
+    display: block;
+}
+
+.top-image {
+    width: 100%;
+    height: 7vh;
+    display: block;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 90vh;
+    box-sizing: border-box;
+}
+
+/* 右侧边栏 */
+.sidebar-right {
+    width: 18.5vw;
+    height: 90vh;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-0.5vh);
+}
+
+/* 左侧边栏 */
+.sidebar-left {
+    width: 18.5vw;
+    height: 90vh;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-0.5vh);
+}
+
+/* 右侧卡片容器 */
+.cards-right-wrapper {
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 包裹卡片的容器 */
+.cards-left-wrapper {
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 卡片 */
+.card {
+    width: 100%;
+    flex: 1;
+    /* 平分高度 */
+    display: flex;
+    flex-direction: column;
+    border-radius: 11px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    margin-bottom: 12px;
+    /* 半透明整体效果 */
+    /* 毛玻璃效果，可选 */
+    user-select: none;
+}
+
+.card:last-child {
+    margin-bottom: 0;
+}
+
+/* 标题栏（半透明深色） */
+.card-header {
+    background: linear-gradient(to right, rgba(49, 141, 169, 0.7), rgba(79, 99, 113, 0.7));
+    /* 渐变背景 */
+    color: #fff;
+    font-weight: 600;
+    padding: 10px;
+    text-align: left;
+    font-family: "SimHei", Arial, sans-serif;
+    text-shadow: 0 0 6px #00bfff;
+    /* 海蓝色光效 */
+    border: none;
+    backdrop-filter: blur(1px);
+    position: relative;
+    user-select: none;
+}
+
+.card5-header-label {
+    font-size: 13px;
+}
+
+.card-header-icon {
+    margin-right: 3px;
+    margin-left: 3px;
+    filter: drop-shadow(0 0 6px #00bfff);
+}
+
+/* 内容栏（浅色半透明） */
+.card1-content,
+.card2-content,
+.card3-content,
+.card4-content,
+.card5-content,
+.card6-content {
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+    color: #000;
+    background-color: rgba(79, 99, 113, 0.7);
+    backdrop-filter: blur(3px);
+}
+
+.card1-content-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    /* 行间距 */
+}
+
+.card1-content-left {
+    margin-left: -10px;
+}
+
+.card1-content-left,
+.card1-content-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.card1-content-left .card1-text-top {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: "SimHei", Arial, sans-serif;
+    color: #faf4f4;
+    text-shadow: #58f0f0 0 0 1px;
+}
+
+.card1-content-left .card1-tn-wrapper-number {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Microsoft Yahei;
+    color: #ffffff;
+    text-shadow: #566fff 0 0 8px;
+}
+
+.card1-content-left .card1-tn-wrapper-text {
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: #566fff 0 0 8px;
+}
+
+.card-1-text-number-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.card1-content-divider {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(to right,
+            rgba(97, 94, 94, 0.7),
+            /* 左侧颜色 */
+            rgba(58, 166, 199, 0.95),
+            rgba(97, 94, 94, 0.7)
+            /* 右侧颜色（与左侧一致） */
+        );
+    /* 渐变线条 */
+    /* margin: 0 10px; */
+}
+
+.card-1 {
+    height: 22.5vh;
+    /* 第一个卡片的高度 */
+    flex: none;
+
+}
+
+.card-2 {
+    height: 22vh;
+    /* 第二个卡片的高度 */
+    flex: none;
+}
+
+.card-3 {
+    height: 14.2vh;
+    /* 第三个卡片的高度 */
+    flex: none;
+}
+
+.card-4 {
+    height: 15vh;
+    /* 第四个卡片的高度 */
+}
+
+.card1-icon-text-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.card1-icon-text-wrapper img {
+    margin-right: 8px;
+}
+
+.icon-wrapper-card1 {
+    display: flex;
+    flex-direction: column;
+    /* 设置为上下排列 */
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+/* 对比条容器 */
+.card1-comparison-bar {
+    display: flex;
+    width: 10vw;
+    height: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 雨水管网部分 */
+.card1-rainwater-bar {
+    background-color: #00bfff;
+    /* 海蓝色 */
+}
+
+/* 污水管网部分 */
+.card1-sewage-bar {
+    background-color: #e64444;
+    /* 粉红色 */
+}
+
+/* 对比条上方文字 */
+.card1-comparison-bar-text {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.card1-content-right .card1-tn-wrapper-number1 {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Microsoft Yahei;
+    color: #ffffff;
+    text-shadow: #566fff 0 0 8px;
+}
+
+.card1-content-right .card1-tn-wrapper-text1 {
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: #566fff 0 0 8px;
+}
+
+.card1-content-right .card1-tn-wrapper-number2 {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Microsoft Yahei;
+    color: #ffffff;
+    text-shadow: #566fff 0 0 8px;
+}
+
+.card1-content-right .card1-tn-wrapper-text2 {
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: #566fff 0 0 8px;
+}
+
+/* 对比条下方文字 */
+.card1-comparison-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin-top: 4px;
+    font-size: 12px;
+    color: #333;
+}
+
+.card1-rainwater-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #faf4f4;
+    text-shadow: #000 0 0 5px;
+    text-align: left;
+}
+
+.card1-sewage-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #faf4f4;
+    text-shadow: #000 0 0 5px;
+    text-align: right;
+}
+
+.card1-row2-multi-wrapper {
+    display: flex;
+    justify-content: space-between;
+    /* 等间距排列 */
+    align-items: center;
+    /* 垂直居中对齐 */
+    width: 100%;
+    /* 确保占满容器宽度 */
+}
+
+.card1-row2-single-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* 保持内部内容上下排列 */
+    align-items: center;
+    /* 居中对齐 */
+    flex: 1;
+    /* 让每个子项占据相等的空间 */
+}
+
+.card1-icon3 {
+    z-index: -1;
+    margin-top: -10px;
+    width: 70px;
+    height: 30px;
+}
+
+.card1-row2-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #d9ddf5;
+    text-shadow: #000 0 0 3px;
+    margin-bottom: 4px;
+}
+
+.card1-row2-single-wrapper .card1-tn-wrapper-number2 {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Microsoft Yahei;
+    color: #ffffff;
+    text-shadow: #9ba9f7 0 0 8px;
+}
+
+.card1-row2-single-wrapper .card1-tn-wrapper-text2 {
+    font-size: 11px;
+    font-weight: bold;
+    color: #7eb2ee;
+    text-shadow: #566fff 0 0 8px;
+}
+
+/* card2-left 和 card2-right 左右排列 */
+.card2-content {
+    display: flex;
+    justify-content: space-between;
+    /* 左右排列 */
+    align-items: flex-start;
+    /* 顶部对齐 */
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+    color: #000;
+    background-color: rgba(79, 99, 113, 0.7);
+    backdrop-filter: blur(3px);
+}
+
+/* card2-left-content 内部的三个元素垂直排列，等间距 */
+.card2-left-content,
+.card2-right-content {
+    display: flex;
+    flex-direction: column;
+    /* 垂直排列 */
+    justify-content: space-between;
+    /* 等间距 */
+    height: 90%;
+    /* 确保占满父容器高度 */
+}
+
+/* card2-left-label-wrapper 内部的 text 和 number 水平排列 */
+.card2-left-label-wrapper,
+.card2-right-label-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    /* 左对齐 */
+    align-items: center;
+    /* 垂直居中 */
+    gap: 4px;
+    /* 控制 text 和 number 之间的间距 */
+    width: 100%;
+    /* 占满父容器宽度 */
+    padding-left: 30px;
+    padding-right: 15px;
+    padding-top: 10px;
+    margin-top: -10px;
+}
+
+.card2-left-label-text1,
+.card2-right-label-text1 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #faf4f4;
+    text-shadow: #000 0 0 5px;
+}
+
+.card2-left-label-number1,
+.card2-right-label-number1 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #faf4f4;
+    text-shadow: #000 0 0 5px;
+}
+
+.card2-left-label-text2,
+.card2-right-label-text2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #faf4f4;
+    text-shadow: #000 0 0 5px;
+}
+
+.card2-left-label-number2,
+.card2-right-label-number2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #faf4f4;
+    text-shadow: #000 0 0 5px;
+}
+
+.card2-right-chart,
+.card2-left-chart {
+    margin-top: -20px;
+    margin-bottom: -15px;
+    width: 100%;
+    height: 58%;
+}
+
+.card3-content {
+    display: flex;
+    justify-content: space-between;
+    /* 左右排列 */
+    height: 5vh;
+
+}
+
+.card3-left-content,
+.card3-right-content {
+    display: flex;
+    flex-direction: column;
+    /* 垂直排列子元素 */
+}
+
+.card3-left-content {
+    margin-left: 25px;
+    margin-top: 5px;
+}
+
+.card3-right-content {
+    margin-right: 15px;
+    margin-top: 5px;
+}
+
+.card3-number-container {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.card3-number-text1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: #9ba9f7 0 0 8px;
+}
+
+.card3-number-text2 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #d3c9c9;
+    text-shadow: #6177f3 0 0 8px;
+}
+
+.card3-label-container {
+    position: relative;
+    display: inline-block;
+    /* 让文字和背景条重叠 */
+}
+
+.card3-title-text1 {
+    position: relative;
+    font-size: 16px;
+    font-family: SimHei;
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 2;
+    /* 确保文字在背景条上方 */
+}
+
+.card3-title-text-background {
+    position: absolute;
+    top: 90%;
+    right: 10%;
+    transform: translateY(-50%);
+    /* 垂直居中 */
+    background: linear-gradient(to right, rgba(62, 202, 185, 0.9), rgba(55, 93, 96, 0.3));
+    width: 100%;
+    height: 10px;
+    z-index: 1;
+    /* 确保背景条在文字下方 */
+}
+
+.card4-top-content {
+    display: flex;
+    align-items: center;
+    /* 垂直居中对齐 */
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.card4-top-svg-container {
+    background-color: #7dbcdf;
+    /* 圆形背景颜色 */
+    border-radius: 50%;
+    /* 圆形 */
+    padding: 0px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    z-index: 999;
+}
+
+.card4-top-svg-container svg {
+    width: 25px;
+    height: 25px;
+}
+
+.card4-top-text-background {
+    flex: 1;
+    background: linear-gradient(to right, rgba(62, 202, 185, 0.9), rgba(55, 93, 96, 0.3));
+    /* 渐变背景 */
+    border-radius: 8px;
+    padding: 6px 15px;
+    display: flex;
+    justify-content: space-between;
+    /* 左右两端对齐 */
+    align-items: center;
+    margin-left: -40px;
+    padding-left: 33px;
+    width: calc(100% + 30px);
+    height: 20px;
+}
+
+.card4-top-text1 {
+    font-size: 18px;
+    font-family: "YSBTHeiTi", sans-serif;
+    color: #ffffff;
+    text-shadow: #9257f0 0 0 5px;
+}
+
+.card4-top-text2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: #566fff 0 0 8px;
+    margin-left: 90px;
+}
+
+.card4-top-text3 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #7eb2ee;
+    text-shadow: #566fff 0 0 8px;
+    margin-left: 5px;
+}
+
+.card4-item-title-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 12px;
+}
+
+.card4-item-title-container img {
+    width: 20px;
+    height: auto;
+}
+
+.card4-item-title-container span {
+    font-size: 18px;
+    font-family: "YSBTHeiTi", sans-serif;
+    color: #ffffff;
+}
+
+@font-face {
+    font-family: "YSBTHeiTi";
+    src: url("./fonts/YouSheBiaoTiHei-2.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.card4-item-text-background {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: linear-gradient(to right, rgba(200, 196, 250, 0.3), rgba(175, 166, 223, 0.4));
+    border-radius: 6px;
+    position: relative;
+    /* 为左侧矩形定位 */
+    gap: 5px;
+}
+
+.card4-item-text-background::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0%;
+    bottom: 0%;
+    width: 6px;
+    background-color: #00FFFF;
+}
+
+.card4-item-content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.card4-item-content-text1 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.card4-item-content-text2 {
+    font-size: 19px;
+    font-weight: bold;
+    color: #fff;
+    margin-left: 8px;
+}
+
+.card4-item-content-text3 {
+    font-size: 14px;
+    margin-left: 4px;
+    color: #fff;
+}
+
+
+.card-5 {
+    height: 18vh;
+    /* 第一个卡片的高度 */
+    flex: none;
+}
+
+.card5-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card5-item-top,
+.card5-item-middle,
+.card5-item-bottom {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+}
+
+.card5-item-top-number {
+    font-size: 26px;
+    font-weight: bold;
+    font-family: "number-font", sans-serif;
+    color: #ffffff;
+    text-shadow: #566fff 0 0 8px;
+}
+
+.card5-item-bottom-text {
+    font-size: 15px;
+    color: #ffffff;
+    text-align: center;
+    font-family: "YSBTHeiTi", sans-serif;
+}
+
+@font-face {
+    font-family: "number-font";
+    src: url("./fonts/number.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.card6-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card6-item-top-btn-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+}
+
+.card6-item-top-btn {
+    background-color: rgba(79, 99, 113, 0.7);
+    color: white;
+    border: 1px solid #1ebdd0;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 20px;
+    font-family: "YSBTHeiTi", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(3px);
+    width: 120px;
+    height: 45px;
+}
+
+.card6-item-top-btn:hover {
+    background-color: rgba(30, 189, 208, 0.7);
+    box-shadow: 0 0 8px rgba(30, 189, 208, 0.8);
+}
+
+.card6-item-top-btn:focus {
+    outline: none;
+}
+
+.card6-item-middle-chart-container {
+    flex: 1;
+    margin: 5px 0;
+    background-color: rgba(79, 99, 113, 0.3);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chart-wrapper {
+    flex: 8;
+    position: relative;
+}
+
+.legend-wrapper {
+    flex: 2;
+    padding: 10px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    width: 45%;
+    margin: 4px 2.5%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    margin-right: 8px;
+}
+
+.legend-text {
+    font-size: 13px;
+    color: #ffffff;
+    white-space: nowrap;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+.chart-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card6-item-bottom-excel-container {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.excel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+}
+
+.excel-table thead {
+    background: rgba(0, 180, 200, 0.5);
+    /* 表头蓝绿色渐变 */
+}
+
+.excel-table th,
+.excel-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.excel-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.15);
+    /* 隔行变色 */
+}

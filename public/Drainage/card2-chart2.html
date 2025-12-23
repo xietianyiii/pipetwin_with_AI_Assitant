@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>环形饼图示例</title>
+  <style>
+    #main {
+      width: 120px;
+      height: 80px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main"></div>
+
+  <!-- 引入 ECharts -->
+  <script src="https://unpkg.com/echarts@5.5.0/dist/echarts.min.js"></script>
+  <script>
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+      tooltip: {
+        show: false
+      },
+      legend: {
+        show: false
+      },
+      series: [
+        {
+          name: '访问来源',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#4f6371b3',
+            borderWidth: 2
+          },
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: false,
+              fontSize: 30,
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: [
+            { value: 3, name: '污水泵站', itemStyle: {
+                color: '#9370DB' // 设置污水泵站的颜色为珊瑚色
+              }
+            },
+            { value: 1, name: '污水开泵', itemStyle: {
+                color: '#668B8B' // 设置污水开泵的颜色为珊瑚色
+              }
+            }
+          ]
+        }
+      ]
+    };
+
+    option && myChart.setOption(option);
+  </script>
+</body>
+</html>

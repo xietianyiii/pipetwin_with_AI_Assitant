@@ -1,0 +1,27 @@
+{
+  "algorithmType": "FloodForShp",
+  "customId": "flood_default",
+  "customData": "",
+  "file": {
+    "tifURL": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/KS_DEM_1990.tif",
+    "shpURL": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/Grid_1990.shp",
+    "shxURL": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/Grid_1990.shx",
+    "prjURL": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/Grid_1990.prj",
+    "dbfURL": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/Grid_1990.dbf",
+    "override": true
+  },
+  "data": [
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/GridIDArray_001.json",  
+      "ValueUrl": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/ValueArray_001.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/GridIDArray_002.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/ValueArray_002.json"
+    },
+    {
+      "GridIDUrl": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/GridIDArray_003.json",
+      "ValueUrl": "http://10.100.10.124:8090/inundation/config/hugeArea_Test/Grid_1990/ValueArray_003.json" 
+    }
+  ]
+}

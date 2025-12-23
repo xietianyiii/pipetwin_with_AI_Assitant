@@ -1,0 +1,47 @@
+{
+    "algorithmType": "FloodForShp",
+    "customId": "flood_default",
+    "customData": "",
+    "file": {
+        "tifURL": "http://10.100.10.124:8090/inundation/Water_DEM.tif",
+        "shpURL": "http://10.100.10.124:8090/inundation/Water_Grid.shp",
+        "shxURL": "http://10.100.10.124:8090/inundation/Water_Grid.shx",
+        "prjURL": "http://10.100.10.124:8090/inundation/Water_Grid.prj",
+        "dbfURL": "http://10.100.10.124:8090/inundation/Water_Grid.dbf",
+        "override": true
+    },
+    "data": [
+        {
+            "gridIdArray": [
+                1
+            ],
+            "valueArray": [
+                1.5
+            ]
+        },
+        {
+            "gridIdArray": [
+                1
+            ],
+            "valueArray": [
+                2.1
+            ]
+        },
+        {
+            "gridIdArray": [
+                1.8
+            ],
+            "valueArray": [
+                2.5
+            ]
+        },
+        {
+            "gridIdArray": [
+                1
+            ],
+            "valueArray": [
+                2.2
+            ]
+        }
+    ]
+}

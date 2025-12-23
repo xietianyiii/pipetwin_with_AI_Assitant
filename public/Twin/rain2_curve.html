@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>雨量曲线监测</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 600px;
+      height: 450px;
+      background: rgba(79, 99, 113, 0.7);
+      backdrop-filter: blur(3px);
+      font-family: "SimHei", Arial, sans-serif;
+      border-radius: 11px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 标题栏样式 */
+    .header {
+      background: linear-gradient(to right,
+          rgba(49, 141, 169, 0.7),
+          rgba(79, 99, 113, 0.7));
+      color: #fff;
+      font-weight: 600;
+      padding: 15px 18px;
+      font-size: 30px;
+      text-align: center;
+      font-family: "SimHei", Arial, sans-serif;
+      text-shadow: 0 0 6px #00bfff;
+      border: none;
+      backdrop-filter: blur(1px);
+      position: relative;
+      user-select: none;
+      border-radius: 11px 11px 0 0;
+    }
+
+    /* 关闭按钮样式 */
+    #closeBtn {
+      background: linear-gradient(to right,
+          rgba(49, 141, 169, 0.7) 0%,
+          rgba(79, 99, 113, 0.7) 33%,
+          rgba(45, 198, 245, 0.7) 66%,
+          rgba(39, 77, 104, 0.7) 100%);
+      background-size: 200% 100%;
+      background-position: 0% 0%;
+      color: #dcd9ff;
+      font-weight: 600;
+      font-family: "SimHei", Arial, sans-serif;
+      text-shadow: 0 0 6px #00bfff;
+      border: 1px solid #00bfff;
+      border-radius: 50px;
+      padding: 8px 12px;
+      cursor: pointer;
+      backdrop-filter: blur(1px);
+      font-size: 20px;
+      transition: all 0.3s ease;
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      z-index: 10;
+    }
+
+    #closeBtn:hover {
+      background-position: -100% 0%;
+      transform: scale(1.01);
+    }
+
+    #chart {
+      width: 100%;
+      height: calc(100% - 30px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    雨量曲线监测
+    <button id="closeBtn"><svg t="1761704757059" class="icon" viewBox="0 0 1024 1024" version="1.1"
+        xmlns="http://www.w3.org/2000/svg" p-id="8786" width="22" height="22">
+        <path
+          d="M828.333167 237.953805l-89.232677 89.232676a326.828117 326.828117 0 0 1 107.458054 242.356565 328.159184 328.159184 0 0 1-656.318368 0c0-96.143986 41.570243-182.30497 107.458054-242.356565L208.465553 237.953805a452.613939 452.613939 0 0 0-144.420757 331.589241 454.354565 454.354565 0 0 0 908.709129 0 452.613939 452.613939 0 0 0-144.420758-331.589241z"
+          fill="#ffffff" p-id="8787"></path>
+        <path d="M454.405759 25.59744h127.987202v511.948805h-127.987202z" fill="#ffffff" p-id="8788"></path>
+      </svg></button>
+  </div>
+  <div id="chart"></div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const index = urlParams.get("index") || 0;
+
+    const chart = echarts.init(document.getElementById("chart"));
+
+    const option = {
+      tooltip: {
+        trigger: "axis",
+        backgroundColor: 'rgba(79, 99, 113, 0.9)',
+        borderColor: '#00bfff',
+        borderWidth: 1,
+        textStyle: {
+          color: '#ffffff',
+          fontSize: 18
+        }
+      },
+      xAxis: {
+        type: "category",
+        data: ["10:00", "10:05", "10:10", "10:15", "10:20", "10:25", "10:30", "10:35"],
+        axisLine: {
+          lineStyle: {
+            color: '#ffffff'
+          }
+        },
+        axisLabel: {
+          color: '#ffffff',
+          fontSize: 16
+        }
+      },
+      yAxis: {
+        type: "value",
+        name: "液位 (m)",
+        min: 3.0,
+        max: 8.0,
+        nameTextStyle: {
+          color: '#ffffff',
+          fontSize: 16
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#ffffff'
+          }
+        },
+        axisLabel: {
+          color: '#ffffff',
+          fontSize: 18 
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgba(255, 255, 255, 0.2)'
+          }
+        }
+      },
+      series: [
+        {
+          name: "液位",
+          type: "line",
+          smooth: true,
+          data: [3.8, 4.1, 4.3, 4.7, 4.9, 5.2, 7.5, 5.8],
+          areaStyle: {
+            color: "rgba(30, 189, 208, 0.3)",
+          },
+          lineStyle: {
+            color: "#00bfff",
+            width: 3
+          },
+          itemStyle: {
+            color: '#00bfff'
+          },
+          symbolSize: 9
+        },
+      ],
+    };
+
+    chart.setOption(option);
+
+    // 点击关闭按钮 -> 通知主程序隐藏窗口
+    document.getElementById("closeBtn").addEventListener("click", () => {
+      if (typeof w51_event === "function") {
+        w51_event("closeCurve", {
+          station: "rain2",
+          type: "rain2",
+          index: Number(index),
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

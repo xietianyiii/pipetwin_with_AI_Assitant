@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>缺陷统计南丁格尔玫瑰图</title>
+    <script src="https://unpkg.com/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #main {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main"></div>
+    <script>
+        const option = {
+            color: ['#5470c6', '#91cc75', '#fac858', '#ee6666'],
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}：{c} ({d}%)',
+                textStyle: {
+                    fontSize: 8,
+                    fontWeight: 'bold'
+                },
+            },
+            series: [
+                {
+                    name: '泵车状态',
+                    type: 'pie',
+                    radius: [15, 50], // 调整内外半径以形成玫瑰图
+                    center: ['50%', '50%'],
+                    roseType: 'radius', // 启用南丁格尔玫瑰图
+                    itemStyle: {
+                        borderRadius: 5,
+                        borderColor: '#4f6371b3',
+                        borderWidth: 0.5
+                    },
+                    label: {
+                        show: false,
+                        fontSize: 6,
+                        formatter: '{b}\n{d}%'
+                    },
+                    labelLine: {
+                        length: 5,
+                        length2: 5
+                    },
+                    data: [
+                        { value: 30, name: '任务完成' },
+                        { value: 25, name: '集结待命' },
+                        { value: 18, name: '驻点保障' },
+                        { value: 24, name: '任务执行' },
+                    ]
+                }
+            ]
+        };
+
+        const chart = echarts.init(document.getElementById('main'));
+        chart.setOption(option);
+    </script>
+</body>
+
+</html>
