@@ -12,6 +12,7 @@ export function useChat() {
     const input = ref("");
     const status = ref<ChatStatus>("idle");
     const errorMsg = ref("");
+    const currentAIIndex = ref<number | null>(null);
 
     let abortCtrl: AbortController | null = null;
 
@@ -63,6 +64,8 @@ export function useChat() {
                 content: "",
                 createdAt: Date.now(),
             }) - 1;
+
+        currentAIIndex.value = aiIndex;
 
         abortCtrl = new AbortController();
 
@@ -146,6 +149,8 @@ export function useChat() {
                 createdAt: Date.now(),
             }) - 1;
 
+        currentAIIndex.value = aiIndex;
+
         await sendAIFeedback(payload, {
             onDelta: (text: string) => {
                 pending += text;
@@ -211,6 +216,34 @@ export function useChat() {
         msg.feedback = msg.feedback === type ? null : type;
     }
 
+    function addAssistantMessage(text: string) {
+        const index = currentAIIndex.value;
+
+        // 理论上一定存在，但做个兜底
+        if (index === null || !messages.value[index]) {
+            const newIndex =
+                messages.value.push({
+                    id: uid(),
+                    role: "assistant",
+                    content: text,
+                    createdAt: Date.now(),
+                    feedback: null,
+                }) - 1;
+
+            currentAIIndex.value = newIndex;
+            return;
+        }
+
+        const msg = messages.value[index];
+
+        // 如果已有内容，则换行追加
+        if (msg.content) {
+            msg.content += "\n\n" + text;
+        } else {
+            msg.content = text;
+        }
+    }
+
     return {
         messages,
         input,
@@ -225,6 +258,7 @@ export function useChat() {
         finishWaitingAction,
         regenerateFrom,
         toggleFeedback,
+        addAssistantMessage,
     };
 }
 

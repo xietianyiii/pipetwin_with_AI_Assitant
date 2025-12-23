@@ -1,8 +1,15 @@
-export function dispatchAIAction(action: any) {
-  if (!action || action.type !== "action") return;
+export type AIAction =
+  | { type: "action"; name: "AI_ANALYSIS" }
+  | { type: "action"; name: "AI_REPAIR" }
+  | {
+      type: "action";
+      name: "PIPE_LIFT";
+      args: { type: string; height: number };
+    };
 
+export function dispatchAIAction(action: AIAction) {
   window.dispatchEvent(
-    new CustomEvent("ai-action", {
+    new CustomEvent<AIAction>("ai-action", {
       detail: action,
     })
   );

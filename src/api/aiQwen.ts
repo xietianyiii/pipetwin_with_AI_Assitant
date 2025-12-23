@@ -38,75 +38,47 @@ export async function chatStream(
         const data = evt.data ?? "";
         const event = (evt.event ?? "message").trim();
 
-        // ✅ 兼容旧后端：用特殊文本标记结束/错误
-        if (data === "[DONE]") {
-            handlers.onDone();
-            return;
-        }
-        if (data.startsWith("[ERROR]")) {
-            handlers.onError(data.replace("[ERROR]", "").trim());
-            return;
-        }
-
-        // ✅ 新后端：按 event 分流（关键！！）
-        if (event === "done") {
+        // ===== done =====
+        if (event === "done" || data === "[DONE]") {
             handlers.onDone();
             return;
         }
 
+        // ===== action（唯一来源）=====
         if (event === "action") {
             try {
-                const action = JSON.parse(evt.data);
+                const action = JSON.parse(data);
                 dispatchAIAction(action);
             } catch (e) {
-                console.error("解析 AI action 失败", evt.data);
+                console.error("解析 AI action 失败", data);
             }
             return;
         }
 
+        // ===== error =====
         if (event === "error") {
-            // error 通常是 JSON：{"message":"..."}
-            if (looksLikeJson(data)) {
-                try {
-                    const obj = JSON.parse(data);
-                    handlers.onError(obj?.message ?? "AI 出错");
-                } catch {
-                    handlers.onError(data || "AI 出错");
-                }
-            } else {
+            try {
+                const obj = JSON.parse(data);
+                handlers.onError(obj?.message ?? "AI 出错");
+            } catch {
                 handlers.onError(data || "AI 出错");
             }
             return;
         }
 
-        // ✅ 只有 delta / message 才当成“要追加到 UI 的文本”
+        // ===== delta（只可能是文本）=====
         if (event === "delta" || event === "message") {
-
-            if (tryDispatchActionFromJson(data)) {
-                return; // ⛔ 不渲染
-            }
-            // 新后端 delta 通常是 JSON：{"text":"..."}
-            if (looksLikeJson(data)) {
-                try {
-                    const obj = JSON.parse(data);
-                    if (typeof obj?.text === "string") handlers.onDelta(obj.text);
-                    else if (typeof obj?.delta === "string") handlers.onDelta(obj.delta);
-                    else if (typeof obj?.content === "string") handlers.onDelta(obj.content);
-                    // 如果 JSON 不是以上结构，就不要把 "{}" 这种追加出来
-                } catch {
-                    // JSON 解析失败时，兜底当纯文本
-                    handlers.onDelta(data);
+            try {
+                const obj = JSON.parse(data);
+                if (typeof obj?.text === "string") {
+                    handlers.onDelta(obj.text);
                 }
-            } else {
-                // 旧后端 / 兼容模式：纯 token
+            } catch {
+                // 理论上不会走到这里，兜底
                 handlers.onDelta(data);
             }
-            return;
         }
-
-        // ✅ 其它 event（例如 ping）一律忽略，避免把 "{}" 之类渲染出来
     });
-
 
     try {
         while (true) {
@@ -117,24 +89,16 @@ export async function chatStream(
             parser.feed(chunkText);
         }
     } catch (e: any) {
-        // abort 不算 error
         if (e?.name === "AbortError") return;
         handlers.onError(e?.message ?? "Stream error");
     }
-}
-
-function looksLikeJson(s: string) {
-    const t = s.trim();
-    return (t.startsWith("{") && t.endsWith("}")) || (t.startsWith("[") && t.endsWith("]"));
 }
 
 export async function sendAIFeedback(
     payload: any,
     handlers: StreamHandlers
 ) {
-    const safePayload = JSON.parse(
-        JSON.stringify(toRaw(payload))
-    );
+    const safePayload = JSON.parse(JSON.stringify(toRaw(payload)));
 
     const res = await fetch("/api/ai/chat/feedback", {
         method: "POST",
@@ -155,12 +119,11 @@ export async function sendAIFeedback(
 
     const decoder = new TextDecoder("utf-8");
 
-    // 🎯 关键：重新创建一个 SSE parser（和 chatStream 一样）
     const parser = createSseParser((evt) => {
         const data = evt.data ?? "";
         const event = (evt.event ?? "message").trim();
 
-        if (data === "[DONE]" || event === "done") {
+        if (event === "done" || data === "[DONE]") {
             handlers.onDone();
             return;
         }
@@ -176,35 +139,22 @@ export async function sendAIFeedback(
         }
 
         if (event === "error") {
-            if (looksLikeJson(data)) {
-                try {
-                    const obj = JSON.parse(data);
-                    handlers.onError(obj?.message ?? "AI 出错");
-                } catch {
-                    handlers.onError(data || "AI 出错");
-                }
-            } else {
+            try {
+                const obj = JSON.parse(data);
+                handlers.onError(obj?.message ?? "AI 出错");
+            } catch {
                 handlers.onError(data || "AI 出错");
             }
             return;
         }
 
         if (event === "delta" || event === "message") {
-
-            // ⭐ Action 兜底
-            if (tryDispatchActionFromJson(data)) {
-                return;
-            }
-            
-            if (looksLikeJson(data)) {
-                try {
-                    const obj = JSON.parse(data);
-                    if (typeof obj?.text === "string") handlers.onDelta(obj.text);
-                    else if (typeof obj?.content === "string") handlers.onDelta(obj.content);
-                } catch {
-                    handlers.onDelta(data);
+            try {
+                const obj = JSON.parse(data);
+                if (typeof obj?.text === "string") {
+                    handlers.onDelta(obj.text);
                 }
-            } else {
+            } catch {
                 handlers.onDelta(data);
             }
         }
@@ -222,19 +172,4 @@ export async function sendAIFeedback(
         if (e?.name === "AbortError") return;
         handlers.onError(e?.message ?? "Stream error");
     }
-}
-
-function tryDispatchActionFromJson(data: string): boolean {
-    if (!looksLikeJson(data)) return false;
-
-    try {
-        const obj = JSON.parse(data);
-        if (obj?.type === "action" && typeof obj?.name === "string") {
-            dispatchAIAction(obj);
-            return true; // ⭐ 已消费
-        }
-    } catch {
-        /* ignore */
-    }
-    return false;
 }

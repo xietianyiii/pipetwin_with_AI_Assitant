@@ -145,6 +145,7 @@ import { handleDeleteAllPois } from "@/utils/deletePois";
 import { createShpArea } from "@/utils/createShpArea";
 import { deleteShpArea } from "@/utils/deleteShpArea";
 import { sendAIFeedback } from "@/api/aiQwen";
+import type { AIAction } from "@/ai-action/index";
 import { useChat } from "@/composables/useChat";
 import {
   createAndRunHeatmap,
@@ -232,7 +233,7 @@ const AIQwenCard = defineAsyncComponent(
 );
 
 const chat = useChat();
-const { startWaitingAction, finishWaitingAction, continueWithFeedback } = chat;
+const { startWaitingAction, finishWaitingAction, continueWithFeedback, addAssistantMessage } = chat;
 
 const showPipeAttriInfo = ref(false);
 const showPipeProblemCard = ref(false);
@@ -376,23 +377,45 @@ onUnmounted(() => {
   window.removeEventListener("ai-action", onAIAction);
 });
 
+function hasAnalysisResult(): boolean {
+  return pipeDetailProblemInfo.value.length > 0;
+}
+
+function canExecute(action: AIAction): boolean {
+  if (action.name === "AI_REPAIR" && !hasAnalysisResult()) {
+    console.warn("尚未分析，拒绝修复");
+    return false;
+  }
+  return true;
+}
+
 function onAIAction(e: Event) {
   const action = (e as CustomEvent).detail;
 
   if (!action || action.type !== "action") return;
 
+  if (action.source !== "ai") {
+    console.warn("非 AI 来源的 action，被忽略:", action);
+    return;
+  }
+
   switch (action.name) {
     case "AI_ANALYSIS":
+      addAssistantMessage("正在进行管网智能分析，请稍候…");
       handleAIAnalysis();
       break;
 
     case "AI_REPAIR":
+      addAssistantMessage("正在进行管网智能修复，请稍候…");
       handleAIRepair();
       break;
 
     case "PIPE_LIFT":
       if (action.args?.type && action.args?.height) {
         console.log("PIPE_LIFT 参数:", action.args);
+        addAssistantMessage(
+          `正在将${action.args.type}提升${action.args.height}米，请稍候…`
+        );
         handlePipeliftClicked(action.args.type, action.args.height);
       }
       break;
