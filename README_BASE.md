@@ -5,7 +5,7 @@
 ```
 src/
 ├─ api/
-│  └─ aiQwen.ts                # ⭐ AI SSE 通信与解析（SSE / action / delta）
+│  └─ ai.ts                # ⭐ AI SSE 通信与解析（SSE / action / delta）
 │
 ├─ ai-actions/
 │  └─ index.ts             # ⭐ AI Action 分发器（广播指令）
@@ -14,18 +14,16 @@ src/
 │  └─ useChat.ts           # 聊天状态与逻辑（send / stop / stream）
 │  └─ useSseParser.ts      # SSE 解析（buffer + event）
 │  └─ useAutoScroll.ts     # 自动滚动策略
-│  └─ useSpeech.ts         # 语音朗读
-│  └─ useVoiceInput.ts     # 语音输入
+│
 ├─ components/
 │  └─ ai/
-│     └─ AiCard.vue         # AI 助手 UI（聊天卡片）
-│     └─ ChatView.vue       # 消息列表（渲染/滚动）
-│     └─ ChatInput.vue      # 输入框、按钮、快捷键
-│     └─ MessageBubble.vue  # 单条消息气泡
-│     └─ MessageActions.vue # 消息下工具栏（复制、重新生成、语音朗读、👍、👎）
+│     └─ AiCard.vue        # AI 助手 UI（聊天卡片）
+│     └─ ChatView.vue      # 消息列表（渲染/滚动）
+│     └─ ChatInput.vue     # 输入框、按钮、快捷键
+│     └─ MessageBubble.vue # 单条消息气泡
+│
 ├─ types/
-│  └─ chat.ts                # ⭐ 聊天 / AI 相关类型定义
-│  └─ speech.d.ts            # ⭐ 语音 / AI 相关类型定义（浏览器原生语音Web API）
+│  └─ chat.ts              # ⭐ 聊天 / AI 相关类型定义
 
 ```
 
@@ -194,12 +192,3 @@ app/
 - 不知道 AI / 业务
 
 > 👉 **这里是“能力模块层”**
-
-```
-后端	routers/ai.py	把 LLM 输出转换成 Action 指令，通过 SSE 发给前端
-后端	services/llm_qwen.py	让模型“学会”以 action/function-call 形式输出
-前端	api/aiQwen.ts	解析 SSE 中的 action 事件
-前端	ai-actions/index.ts	Action → 前端函数的分发器（最关键）
-前端	composables/useChat.ts	把 action 流接入聊天流程
-```
-
