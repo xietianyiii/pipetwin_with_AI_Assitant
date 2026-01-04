@@ -130,7 +130,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch, ref, nextTick, onMounted ,onBeforeUnmount} from "vue";
+import {
+  computed,
+  watch,
+  ref,
+  nextTick,
+  onMounted,
+  onBeforeUnmount,
+} from "vue";
 import { useVoiceInput } from "@/composables/useVoiceInput";
 
 const model = defineModel<string>({ required: true });
@@ -190,19 +197,26 @@ const {
   isRecording: isMicrophoneActive,
   toggle: toggleMicrophone,
   stop: stopMicrophone,
-} = useVoiceInput((text, isFinal) => {
-  if (isFinal) {
-    // 最终结果：写入 model
-    model.value = model.value ? `${model.value}${text}` : text;
+} = useVoiceInput(
+  (text, isFinal) => {
+    if (isFinal) {
+      // 最终结果：写入 model
+      model.value = model.value ? `${model.value}${text}` : text;
 
-    voiceDraft.value = "";
-  } else {
-    // 中间结果：写入草稿
-    voiceDraft.value = text;
+      voiceDraft.value = "";
+    } else {
+      // 中间结果：写入草稿
+      voiceDraft.value = text;
+    }
+    // ⭐⭐ 每次识别都自动聚焦输入框
+    focusInput();
+  },
+  () => {
+    // 超时回调，触发发送操作
+    console.log("3秒内没有语音输入，自动停止识别并发送");
+    onSendClick(); // 触发发送操作
   }
-  // ⭐⭐ 每次识别都自动聚焦输入框
-  focusInput();
-});
+);
 
 function onMicrophoneClick() {
   toggleMicrophone();
@@ -259,8 +273,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", onGlobalKeydown);
 });
-
-
 </script>
 
 <script lang="ts">
@@ -368,7 +380,7 @@ button:disabled {
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.7);
-    transform: scale(1.1);
+    transform: scale(1.0);
   }
   70% {
     box-shadow: 0 0 0 10px rgba(0, 198, 255, 0);
@@ -376,7 +388,7 @@ button:disabled {
   }
   100% {
     box-shadow: 0 0 0 3px rgba(0, 198, 255, 0);
-    transform: scale(1.1);
+    transform: scale(1.0);
   }
 }
 

@@ -1,8 +1,9 @@
 import { ref, onBeforeUnmount } from "vue";
 
-export function useVoiceInput(onResult: (text: string, isFinal: boolean) => void) {
+export function useVoiceInput(onResult: (text: string, isFinal: boolean) => void, onTimeout: () => void) {
   const isRecording = ref(false);
   let recognition: SpeechRecognition | null = null;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null; // 用于存储定时器 ID
 
   function initRecognition() {
     if (recognition) return recognition;
@@ -49,6 +50,9 @@ export function useVoiceInput(onResult: (text: string, isFinal: boolean) => void
         onResult(finalText, true);
         // stop(); // 只在最终结果时停止
       }
+
+      // 每次识别到新内容，重置定时器
+      resetInactivityTimer();
     };
 
     // 3️⃣ 识别错误
@@ -70,6 +74,9 @@ export function useVoiceInput(onResult: (text: string, isFinal: boolean) => void
     const recog = initRecognition();
     recog.start();
     isRecording.value = true;
+
+    // 开始计时，检测两秒无输入后自动停止
+    resetInactivityTimer();
   }
 
   // ⏹ 停止录音
@@ -85,10 +92,27 @@ export function useVoiceInput(onResult: (text: string, isFinal: boolean) => void
     isRecording.value ? stop() : start();
   }
 
+  // 🧹 清理计时器
+  function resetInactivityTimer() {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    console.log('重置定时器...');
+    // 3秒内没有识别到新内容就自动停止
+    timeoutId = setTimeout(() => {
+      console.log("3秒内没有识别到新内容，自动停止语音识别");
+      stop();
+      onTimeout();  // 超时后通知父组件
+    }, 3000); // 3000ms = 3秒
+  }
+
   // 🧹 组件卸载时清理
   onBeforeUnmount(() => {
     recognition?.stop();
     recognition = null;
+    if (timeoutId) {
+      clearTimeout(timeoutId); // 清理定时器
+    }
   });
 
   return {

@@ -57,7 +57,7 @@ const props = defineProps({
 
 const emit = defineEmits(["close", "ai-analysis", "ai-repair", "row-click"]);
 
-const position = ref({ x: 150, y: 250 });
+const position = ref({ x: 80, y: 120 });
 const isDragging = ref(false);
 const offset = ref({ x: 0, y: 0 });
 const cardRef = ref<HTMLElement | null>(null);

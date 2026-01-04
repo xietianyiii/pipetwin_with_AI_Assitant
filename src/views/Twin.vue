@@ -61,6 +61,7 @@
 
       <PipeToolBar
         v-model:show-pipe-upload-card="showPipeUploadCard"
+        v-model:show-AI-qwen-card="showAIQwenCard"
         @create-pipeline="handleCreatePipeline"
         @clear-pipeline="handleClearPipeline"
         @digClicked="handleDigClicked"
@@ -80,6 +81,7 @@
         @pipSpeEffectClicked="handlePipSpeEffectClicked"
         @resetSpeEffectClicked="handleResetSpeEffectClicked"
         @resetPipeUploadClicked="handleResetPipeUploadClicked"
+        @AICardToggled="handleAICardToggled"
       />
 
       <div class="test-btn-container">
@@ -113,12 +115,6 @@
         </button>
         <button class="control-btn" @click="handlePipeProblemClicked">
           <span>查看问题</span>
-        </button>
-        <button class="control-btn" @click="handlePipeUploadClicked">
-          <span>上传管网</span>
-        </button>
-        <button class="control-btn" @click="handleAIQwenCardClicked">
-          <span>打开AI助手卡</span>
         </button>
       </div>
     </div>
@@ -339,8 +335,8 @@ function handlePipeUploadClicked() {
   showPipeUploadCard.value = !showPipeUploadCard.value;
 }
 
-function handleAIQwenCardClicked() {
-  showAIQwenCard.value = !showAIQwenCard.value;
+function handleAICardToggled(visible: boolean) {
+  showAIQwenCard.value = visible;
 }
 
 onMounted(() => {
@@ -1015,6 +1011,7 @@ async function handleResetPipeUploadClicked() {
   console.log("pipeUploadStepActive.value", pipeUploadStepActive.value);
   pipeUploadStepActive.value = 0;
 }
+
 
 async function handleLiquidlevelClicked(
   pipeType: string,

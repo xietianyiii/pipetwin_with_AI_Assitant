@@ -68,7 +68,7 @@ function onFeedback(payload: { index: number; type: "up" | "down" }) {
 
 const emit = defineEmits(["close"]);
 
-const position = ref({ x: 1400, y: 200 });
+const position = ref({ x: 750, y: 270 });
 const isDragging = ref(false);
 const offset = ref({ x: 0, y: 0 });
 const cardRef = ref<HTMLElement | null>(null);

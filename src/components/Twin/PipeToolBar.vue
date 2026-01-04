@@ -357,6 +357,35 @@
         </div>
       </div>
 
+      <!-- 图标11 -->
+      <div
+        class="icon-container"
+        :class="{ 'icon-container-expanded': isAICardVisible }"
+      >
+        <div
+          class="icon-wrapper"
+          :class="{ active: isAICardVisible }"
+          @click="() => handleToolClick(10)"
+        >
+          <div
+            class="icon"
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <img
+              src="@/assets/pngs/pipetoolbar/12.png"
+              style="width: 26px; height: 26px"
+            />
+          </div>
+        </div>
+        <div v-if="isAICardVisible" class="icon-extension">
+          <div class="extension-content">
+            <span class="extension-title-no-click">AI助手</span>
+            <div class="extension-divider"></div>
+            
+          </div>
+        </div>
+      </div>
+
       <transition name="fade-card">
         <div
           v-if="
@@ -608,9 +637,17 @@
     </div>
   </div>
 
-  <div class="bottom-icon-container">
-    
-  </div>
+  <!-- <div class="bottom-icon-container">
+    <div
+      class="AIicon"
+      style="display: flex; align-items: center; justify-content: center"
+    >
+      <img
+        src="@/assets/pngs/pipetoolbar/11.png"
+        style="width: 50px; height: 50px"
+      />
+    </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">
@@ -646,6 +683,7 @@ const isVisibilityToolActive = ref(false); // 单独跟踪显示/隐藏图标的
 
 const props = defineProps({
   showPipeUploadCard: { type: Boolean, default: false },
+  showAIQwenCard: { type: Boolean, default: false },
 });
 
 const showPipeUploadCardExpand = ref(false);
@@ -701,6 +739,7 @@ const emit = defineEmits<{
   (e: "update:isDraCard3CloseButtonVisible", value: boolean): void;
   (e: "update:isDraCard4CloseButtonVisible", value: boolean): void;
   (e: "update:showPipeUploadCard", value: boolean): void;
+  (e: "update:showAIQwenCard", value: boolean): void;  // Add this line for v-model
   (e: "create-poi"): void;
   (e: "delete-poi"): void;
   (e: "create-shp-area"): void;
@@ -740,6 +779,7 @@ const emit = defineEmits<{
   ): void;
   (e: "pipeLabelToggled", visible: boolean): void;
   (e: "pipeEditorToggled", enabled: boolean): void;
+  (e: "AICardToggled", visible: boolean): void;
 }>();
 
 const handleDigCut = () => {
@@ -790,7 +830,7 @@ const handlePipeHidden = () => {
   // 确保图标保持active状态
   isVisibilityToolActive.value = false;
   // 同时关闭右侧的弹窗
-//   activeToolIndex.value = null;
+  //   activeToolIndex.value = null;
   emit(
     "pipevisibilityToggled",
     false,
@@ -863,22 +903,33 @@ const handleToolClick = (index: number) => {
 
     emit("pipeEditorToggled", isPipeEditorEnable.value);
     return;
-  }else {
+  }
+
+  if (index === 10) {
+    activeToolIndex.value = null;
+    isPipeEditorExpand.value = false;
+    isPipeLabelexpand.value = false;
+    isAICardVisible.value = !isAICardVisible.value;
+
+    emit("AICardToggled", isAICardVisible.value);
+    emit("update:showAIQwenCard", isAICardVisible.value); // Add this line for v-model
+    return;
+  } else {
     // 其他图标按原有逻辑处理，但不影响显示/隐藏图标的active状态
     isPipeLabelexpand.value = false;
     isPipeEditorExpand.value = false;
     activeToolIndex.value = activeToolIndex.value === index ? null : index;
   }
 
-//   // 如果是第3个图标（显示/隐藏切换图标），使用单独的状态管理
-//   if (index === 3) {
-//     isPipeLabelexpand.value = false;
-//     isPipeEditorExpand.value = false;
-//     // 设置显示/隐藏图标为active状态（不会切换为非active）
-//     isVisibilityToolActive.value = true;
-//     // 同时更新activeToolIndex以显示子菜单
-//     activeToolIndex.value = activeToolIndex.value === index ? null : index;
-//   } 
+  //   // 如果是第3个图标（显示/隐藏切换图标），使用单独的状态管理
+  //   if (index === 3) {
+  //     isPipeLabelexpand.value = false;
+  //     isPipeEditorExpand.value = false;
+  //     // 设置显示/隐藏图标为active状态（不会切换为非active）
+  //     isVisibilityToolActive.value = true;
+  //     // 同时更新activeToolIndex以显示子菜单
+  //     activeToolIndex.value = activeToolIndex.value === index ? null : index;
+  //   }
 };
 
 const handleFirstToolClick = () => {
@@ -930,6 +981,13 @@ const isPipeLabelexpand = ref<boolean>(false);
 // 管网编辑状态
 const isPipeEditorEnable = ref<boolean>(false);
 const isPipeEditorExpand = ref<boolean>(false);
+
+const isAICardVisible = ref<boolean>(false);
+
+// Sync with parent component's showAIQwenCard state
+watch(() => props.showAIQwenCard, (newVal) => {
+  isAICardVisible.value = newVal;
+});
 
 onMounted(() => {
   // 获取元素
@@ -1385,5 +1443,50 @@ onMounted(() => {
   color: #a32d2d !important;
   background-color: rgba(47, 127, 191, 0.6) !important;
   height: 12px;
+}
+
+.bottom-icon-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(23, 50, 88, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(150, 215, 255, 0.8),
+    0 2px 0 0 rgba(112, 185, 255, 0.6), 0 2px 10px rgba(112, 185, 255, 0.6);
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+.bottom-icon-container:hover {
+  background: linear-gradient(
+      0deg,
+      rgba(73, 106, 255, 0.8) 0%,
+      rgba(57, 221, 197, 0.8) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(25, 240, 254, 0) 5%,
+      rgba(25, 254, 246, 0.3) 99%
+    ),
+    linear-gradient(0deg, rgba(23, 50, 88, 0.2987) -11%, #22579f 100%),
+    rgba(23, 50, 88, 0.1);
+  box-shadow: inset 0px 0px 4px 0px #c1f5ff, 0 0 0 1px rgba(199, 234, 255, 0.8),
+    0 0 12px rgba(199, 234, 255, 0.8);
+  transform: scale(1.05);
+}
+
+.bottom-icon-container .icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

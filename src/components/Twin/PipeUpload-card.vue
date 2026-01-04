@@ -189,7 +189,7 @@ const fieldMappings = ref([
 
 const emit = defineEmits(["close", "update:pipeUploadStepActive"]);
 
-const position = ref({ x: 500, y: 300 });
+const position = ref({ x: 750, y: 270 });
 const isDragging = ref(false);
 const offset = ref({ x: 0, y: 0 });
 const cardRef = ref<HTMLElement | null>(null);
