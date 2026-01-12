@@ -1,10 +1,4 @@
 <template>
-  <div class="Header_mask">
-    <img
-      class="Header_mask_img"
-      src="@/assets/pngs/pipetoolbar/Header_mask.png"
-    />
-  </div>
   <div class="pipe-toolbar">
     <!-- 左侧标题 -->
     <div class="toolbar-title">51管网工具</div>
@@ -1028,19 +1022,10 @@ onMounted(() => {
 
 
 <style scoped>
-.Header_mask_img {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 1920px;
-  height: 100px;
-  opacity: 1;
-}
-
 .pipe-toolbar {
   position: fixed;
-  top: 5.5%;
-  left: 2%; /* 你想固定左侧位置 */
+  top: 94%;
+  left: 30%; /* 你想固定左侧位置 */
   transform: translateY(-50%);
   display: flex;
   align-items: center;
@@ -1242,7 +1227,7 @@ onMounted(() => {
   transform: translateX(42%);
   transition: opacity 0.3s;
   z-index: 1001;
-  top: 120%;
+  top: -200%;
   border-radius: 16px;
   opacity: 1;
   transition: all 0.3s ease;

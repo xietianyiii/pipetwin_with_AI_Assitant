@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "YouSheBiaoTiHei";
+  src: url("@/assets/fonts/YouSheBiaoTiHei-2.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AliMaMaShuHeiTi";
+  src: url("@/assets/fonts/阿里妈妈数黑体.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "AlimamaAgileVF";
+  src: url("@/assets/fonts/AlimamaAgileVF-Thin.ttf") format("truetype");
+}

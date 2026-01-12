@@ -5,86 +5,37 @@
 
     <!-- 面板组件 -->
     <div class="panel-container">
-      <!-- <DrainagePanel
-        v-if="activePanel === 'drainage'"
-        @create-pipeline="handleCreatePipeline"
-        @clear-pipeline="handleClearPipeline"
-        @digClicked="handleDigClicked"
-        @digcutClicked="handleDigCutClicked"
-        @resetdigcutClicked="handleResetDigCutClicked"
-        @pipeliftClicked="handlePipeliftClicked"
-        @resetpipeliftClicked="handleResetPipeliftClicked"
-        @pipelightClicked="handlePipelightClicked"
-        @resetpipelightClicked="handleResetPipelightClicked"
-        @liquidlevelClicked="handleLiquidlevelClicked"
-        @resetliquidlevelClicked="handleResetLiquidlevelClicked"
-        @flowdirectionClicked="handleFlowdirectionClicked"
-        @resetflowdirectionClicked="handleResetFlowdirectionClicked"
-        @pipevisibilityToggled="handlePipeVisibilityToggled"
-        @pipeLabelToggled="handlePipeLabelToggled"
-        @pipeEditorToggled="handlePipeEditorToggled"
-        @pipSpeEffectClicked="handlePipSpeEffectClicked"
-        @resetSpeEffectClicked="handleResetSpeEffectClicked"
-      /> -->
+      <Header />
 
-      <AIQwenCard
-        v-show="showAIQwenCard"
-        :chat="chat"
-        @close="showAIQwenCard = false"
-      />
+      <DrainagePanel v-if="activePanel === 'drainage'" />
+      <MonitorPanel v-if="activePanel === 'monitor'" />
+      <SimPanel v-if="activePanel === 'sim'" />
 
-      <PipeAttriInfoCard
-        v-show="showPipeAttriInfo"
-        :PipeFID="PipeAttriFID"
-        :PipeEID="PipeAttriEID"
-        :pipeData="pipeDetailAttriInfo"
-        :aiAnalysisTrigger="aiAnalysisTrigger"
-        :aiRepairTrigger="aiRepairTrigger"
-        @close="showPipeAttriInfo = false"
-        @ai-analysis="handleAIAnalysis"
-        @ai-repair="handleAIRepair"
-      />
+      <AIQwenCard v-show="showAIQwenCard" :chat="chat" @close="showAIQwenCard = false" />
 
-      <PipeProblemCard
-        v-show="showPipeProblemCard"
-        :PipeProblemFID="PipeProblemFID"
-        :pipeProblemData="pipeDetailProblemInfo"
-        @row-click="handleRowClick"
-        @close="showPipeProblemCard = false"
-      />
+      <PipeAttriInfoCard v-show="showPipeAttriInfo" :PipeFID="PipeAttriFID" :PipeEID="PipeAttriEID"
+        :pipeData="pipeDetailAttriInfo" :aiAnalysisTrigger="aiAnalysisTrigger" :aiRepairTrigger="aiRepairTrigger"
+        @close="showPipeAttriInfo = false" @ai-analysis="handleAIAnalysis" @ai-repair="handleAIRepair" />
 
-      <PipeUploadCard
-        v-show="showPipeUploadCard"
-        v-model:pipe-upload-step-active="pipeUploadStepActive"
-        @close="showPipeUploadCard = false"
-      />
+      <PipeProblemCard v-show="showPipeProblemCard" :PipeProblemFID="PipeProblemFID"
+        :pipeProblemData="pipeDetailProblemInfo" @row-click="handleRowClick" @close="showPipeProblemCard = false" />
 
-      <PipeToolBar
-        v-model:show-pipe-upload-card="showPipeUploadCard"
-        v-model:show-AI-qwen-card="showAIQwenCard"
-        @create-pipeline="handleCreatePipeline"
-        @clear-pipeline="handleClearPipeline"
-        @digClicked="handleDigClicked"
-        @digcutClicked="handleDigCutClicked"
-        @resetdigcutClicked="handleResetDigCutClicked"
-        @pipeliftClicked="handlePipeliftClicked"
-        @resetpipeliftClicked="handleResetPipeliftClicked"
-        @pipelightClicked="handlePipelightClicked"
-        @resetpipelightClicked="handleResetPipelightClicked"
-        @liquidlevelClicked="handleLiquidlevelClicked"
-        @resetliquidlevelClicked="handleResetLiquidlevelClicked"
-        @flowdirectionClicked="handleFlowdirectionClicked"
-        @resetflowdirectionClicked="handleResetFlowdirectionClicked"
-        @pipevisibilityToggled="handlePipeVisibilityToggled"
-        @pipeLabelToggled="handlePipeLabelToggled"
-        @pipeEditorToggled="handlePipeEditorToggled"
-        @pipSpeEffectClicked="handlePipSpeEffectClicked"
-        @resetSpeEffectClicked="handleResetSpeEffectClicked"
-        @resetPipeUploadClicked="handleResetPipeUploadClicked"
-        @AICardToggled="handleAICardToggled"
-      />
+      <PipeUploadCard v-show="showPipeUploadCard" v-model:pipe-upload-step-active="pipeUploadStepActive"
+        @close="showPipeUploadCard = false" />
 
-      <div class="test-btn-container">
+      <PipeToolBar v-model:show-pipe-upload-card="showPipeUploadCard" v-model:show-AI-qwen-card="showAIQwenCard"
+        @create-pipeline="handleCreatePipeline" @clear-pipeline="handleClearPipeline" @digClicked="handleDigClicked"
+        @digcutClicked="handleDigCutClicked" @resetdigcutClicked="handleResetDigCutClicked"
+        @pipeliftClicked="handlePipeliftClicked" @resetpipeliftClicked="handleResetPipeliftClicked"
+        @pipelightClicked="handlePipelightClicked" @resetpipelightClicked="handleResetPipelightClicked"
+        @liquidlevelClicked="handleLiquidlevelClicked" @resetliquidlevelClicked="handleResetLiquidlevelClicked"
+        @flowdirectionClicked="handleFlowdirectionClicked" @resetflowdirectionClicked="handleResetFlowdirectionClicked"
+        @pipevisibilityToggled="handlePipeVisibilityToggled" @pipeLabelToggled="handlePipeLabelToggled"
+        @pipeEditorToggled="handlePipeEditorToggled" @pipSpeEffectClicked="handlePipSpeEffectClicked"
+        @resetSpeEffectClicked="handleResetSpeEffectClicked" @resetPipeUploadClicked="handleResetPipeUploadClicked"
+        @AICardToggled="handleAICardToggled" />
+
+      <!-- <div class="test-btn-container">
         <div class="camera-input-container">
           <label for="camera-location">位置:</label>
           <input
@@ -116,7 +67,7 @@
         <button class="control-btn" @click="handlePipeProblemClicked">
           <span>查看问题</span>
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -203,8 +154,11 @@ import {
 import { createEffect, deleteEffect } from "@/utils/CreateSpecialEffect";
 import { updateCamera, updateCamerabycustomId } from "@/utils/updateCamera";
 import DrainagePanel from "@/components/Drainage";
+import MonitorPanel from "@/components/Moni";
+import SimPanel from "@/components/Sim";
+import Header from "@/components/Header";
 import Menu from "@/components/Menu";
-import { setStationVisibility } from "@/utils/setStationVisibility";
+import { setStationVisibility } from "@/utils/SetStationVisibility";
 
 const LegendCard = defineAsyncComponent(
   () => import("@/components/Twin/legend-card.vue")
@@ -353,7 +307,7 @@ onMounted(() => {
 
   // 启动云渲染
   App.Renderer.Start()
-    .then((res) => {
+    .then((res: any) => {
       if (res.success) {
         console.log("✅ WebRTC 连接成功，等待场景加载...");
         loadingText.value = "正在加载场景...";
@@ -362,7 +316,7 @@ onMounted(() => {
         loading.value = false;
       }
     })
-    .catch((err) => {
+    .catch((err: any) => {
       loading.value = false;
     });
 
@@ -602,7 +556,7 @@ async function handleUpdateCamera() {
       .split(",")
       .map((coord) => parseFloat(coord.trim()));
     if (coords.length === 3 && coords.every((coord) => !isNaN(coord))) {
-      position = [coords[0], coords[1], coords[2]];
+      position = [coords[0]!, coords[1]!, coords[2]!];
     } else {
       console.warn("位置参数格式不正确，使用默认值 [0, 0, 0]");
     }
@@ -615,7 +569,7 @@ async function handleUpdateCamera() {
       .split(",")
       .map((angle) => parseFloat(angle.trim()));
     if (angles.length === 2 && angles.every((angle) => !isNaN(angle))) {
-      rotation = { pitch: angles[0], yaw: angles[1] };
+      rotation = { pitch: angles[0]!, yaw: angles[1]! };
     } else {
       console.warn("旋转参数格式不正确，使用默认值 { pitch: 0, yaw: 0 }");
     }
@@ -1617,8 +1571,8 @@ async function openStationCurve(station: string, action?: string) {
   // 这里你也可以更新右侧面板或状态
   if (action === "open") {
     console.log(`📈 ${station} 曲线弹窗已打开`);
-    let position: [number, number, number];
-    let rotation: { pitch: number; yaw: number };
+    let position: [number, number, number] = [0, 0, 0];
+    let rotation: { pitch: number; yaw: number } = { pitch: 0, yaw: 0 };
 
     switch (station) {
       case "pump1":
@@ -1692,10 +1646,7 @@ async function handleMenuInundationExecutePlan(plan: string, radio: string) {
   }
 }
 
-async function handleMenuInundationClear() {
-  await deleteInundationAlgorithm(true);
-  await deleteHeatmapAlgorithm(true);
-}
+
 
 async function handleRowClick(fid: string) {
   // 查找对应的管网元素信息
@@ -1792,9 +1743,9 @@ async function handleRowClick(fid: string) {
       },
     };
 
-    if (positions[fid]) {
-      const { pos, rot } = positions[fid];
-      await updateCamera(App, pos, rot, 2);
+    if (positions[fid as keyof typeof positions]) {
+      const { pos, rot } = positions[fid as keyof typeof positions];
+      await updateCamera(App, pos as [number, number, number], rot, 2);
     }
   } else {
     console.warn(`⚠️ 未找到FID为 ${fid} 的问题项`);
@@ -1882,11 +1833,9 @@ onBeforeUnmount(() => {
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(0, 0, 0, 0.9),
-    rgba(0, 0, 0, 0.95)
-  );
+  background: radial-gradient(circle at center,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.95));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1922,6 +1871,7 @@ onBeforeUnmount(() => {
 .fade-leave-active {
   transition: opacity 1s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

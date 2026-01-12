@@ -75,13 +75,6 @@ watch(
   () => scrollToBottom(false)
 );
 
-watch(
-  () => props.isWaitingAction,
-  (v) => {
-    console.log("ChatList isWaitingAction:", v);
-  },
-  { immediate: true }
-);
 </script>
 
 <script lang="ts">

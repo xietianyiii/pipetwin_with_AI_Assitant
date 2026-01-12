@@ -5,15 +5,35 @@
   <meta charset="UTF-8">
   <title>环形饼图示例</title>
   <style>
+    .chart-card {
+      position: relative;
+      display: inline-block;
+      /* 由内容决定尺寸 */
+    }
+
+    .chart-card .bg {
+      display: block;
+      /* 去掉 img 默认下边距 */
+    }
+
     #main {
+      position: absolute;
       width: 120px;
-      height: 80px;
+      height: 120px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
     }
   </style>
 </head>
 
 <body>
-  <div id="main"></div>
+  <div class="chart-card">
+    <img class="bg" src="./chart_back.png" />
+    <div id="main"></div>
+  </div>
+
 
   <!-- 引入 ECharts -->
   <script src="https://unpkg.com/echarts@5.5.0/dist/echarts.min.js"></script>
@@ -33,20 +53,22 @@
         {
           name: '访问来源',
           type: 'pie',
-          radius: ['40%', '70%'],
+          radius: ['55%', '66%'],
           avoidLabelOverlap: false,
+          padAngle: 8,
           itemStyle: {
-            borderRadius: 10,
-            borderColor: '#4f6371b3',
-            borderWidth: 2
+            borderRadius: 0,
+            borderWidth: 0
           },
           label: {
             show: false,
             position: 'center'
           },
           emphasis: {
+            scale: true,
+            scaleSize: 2,
             label: {
-              show: false,
+              show: true,
               fontSize: 5,
               fontWeight: 'bold'
             }
@@ -56,12 +78,13 @@
           },
           data: [
             {
-              value: 16, name: '雨水泵站', itemStyle: {
-                color: '#DAA520' // 设置雨水泵站的颜色为金色
+              value: 12, name: '雨水泵站', itemStyle: {
+                color: '#4D99FC' // 设置雨水泵站的颜色为金色
               }
             },
-            { value: 4, name: '雨水开泵', itemStyle: {
-                color: '#B03060' // 设置雨水开泵的颜色为海蓝色
+            {
+              value: 4, name: '雨水开泵', itemStyle: {
+                color: '#61E0D7' // 设置雨水开泵的颜色为海蓝色
               }
             },
           ]
